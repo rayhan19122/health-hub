@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<template id="__bundler_thumbnail" data-bg-color="#1565C0">
+  <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="#1565C0"/>
+    <rect x="140" y="80" width="120" height="120" rx="24" fill="rgba(255,255,255,0.15)"/>
+    <rect x="168" y="104" width="24" height="48" rx="3" fill="#fff"/>
+    <rect x="208" y="92" width="24" height="60" rx="3" fill="#fff"/>
+    <rect x="156" y="122" width="88" height="14" rx="3" fill="#fff"/>
+    <text x="200" y="240" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="700" fill="#fff">HealthHub</text>
+  </svg>
+</template>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.4 } }
+@keyframes spin { to { transform:rotate(360deg) } }
+@keyframes checkDraw { from { stroke-dashoffset:50 } to { stroke-dashoffset:0 } }
+@keyframes scaleIn { from { transform:scale(0); opacity:0 } to { transform:scale(1); opacity:1 } }
+@keyframes rippleOut { 0% { transform:scale(.5); opacity:.6 } 100% { transform:scale(2.5); opacity:0 } }
+
+body { margin:0; font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+a { color:#1565C0 } a:hover { color:#0D47A1 }
+* { box-sizing:border-box }
+</style>
+</helmet>
+
+<div style="width:100%; min-height:100vh; transition:background .25s,color .25s; background:{{ bg }}; color:{{ txt }}">
+
+<!-- ════ TOP NAVBAR ════ -->
+<div style="display:{{ navShow }}; position:fixed; top:0; left:0; right:0; height:56px; background:{{ navBg }}; border-bottom:1px solid {{ bdr }}; align-items:center; padding:0 20px; gap:14px; z-index:100; backdrop-filter:blur(12px)">
+  <div style="display:flex; align-items:center; gap:8px; cursor:pointer" onClick="{{ goServices }}">
+    <svg width="26" height="26" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="7" fill="#1565C0"></rect><path d="M8 10h4v8H8zM16 7h4v11h-4z" fill="#fff"></path><rect x="6" y="13" width="16" height="2.5" rx="1" fill="#fff"></rect></svg>
+    <span style="font-size:15px; font-weight:700; color:{{ txt }}; letter-spacing:-.3px">HealthHub</span>
+  </div>
+  <div style="margin-left:auto; display:flex; align-items:center; gap:10px">
+    <div onClick="{{ toggleDark }}" style="width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px" style-hover="background:{{ hover }}">{{ darkIcon }}</div>
+    <div onClick="{{ goNotif }}" style="position:relative; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:{{ hover }}">
+      <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M13.5 6.75a4.5 4.5 0 10-9 0c0 5.25-2.25 6.75-2.25 6.75h13.5s-2.25-1.5-2.25-6.75M10.3 15.75a1.5 1.5 0 01-2.6 0" stroke="{{ txt2 }}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <div style="position:absolute; top:5px; right:5px; width:8px; height:8px; border-radius:50%; background:#C62828; border:2px solid {{ navBg }}"></div>
+    </div>
+    <div onClick="{{ cycleRole }}" style="display:flex; align-items:center; gap:8px; padding:4px 12px 4px 4px; border-radius:20px; cursor:pointer; background:{{ chip }}" style-hover="background:{{ hover }}">
+      <div style="width:28px; height:28px; border-radius:50%; background:{{ avatarClr }}; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:#fff">{{ avatarL }}</div>
+      <span style="font-size:12px; font-weight:500; color:{{ txt2 }}">{{ roleName }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════ BOTTOM NAV ════ -->
+<div style="display:{{ navShow }}; position:fixed; bottom:0; left:0; right:0; height:56px; background:{{ navBg }}; border-top:1px solid {{ bdr }}; align-items:center; justify-content:center; gap:0; z-index:100; backdrop-filter:blur(12px)">
+  <div onClick="{{ goServices }}" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; cursor:pointer; color:{{ bnHome }}">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 7.5L10 2l7 5.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V7.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    <span style="font-size:10px; font-weight:600">Home</span>
+  </div>
+  <div onClick="{{ goServices }}" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; cursor:pointer; color:{{ bnSvc }}">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"></rect></svg>
+    <span style="font-size:10px; font-weight:600">Services</span>
+  </div>
+  <div onClick="{{ goBedHome }}" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; cursor:pointer; color:{{ bnMap }}">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16.5 8.5c0 5-6.5 9.5-6.5 9.5S3.5 13.5 3.5 8.5a6.5 6.5 0 1113 0z" stroke="currentColor" stroke-width="1.5"></path><circle cx="10" cy="8.5" r="2" stroke="currentColor" stroke-width="1.5"></circle></svg>
+    <span style="font-size:10px; font-weight:600">Map</span>
+  </div>
+  <div onClick="{{ goNotif }}" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; cursor:pointer; color:{{ bnNotif }}; position:relative">
+    <svg width="20" height="20" viewBox="0 0 18 18" fill="none"><path d="M13.5 6.75a4.5 4.5 0 10-9 0c0 5.25-2.25 6.75-2.25 6.75h13.5s-2.25-1.5-2.25-6.75M10.3 15.75a1.5 1.5 0 01-2.6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    <span style="font-size:10px; font-weight:600">Alerts</span>
+  </div>
+  <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; cursor:pointer; color:{{ txt3 }}">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"></circle><path d="M3 18c0-3.87 3.13-7 7-7s7 3.13 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>
+    <span style="font-size:10px; font-weight:600">Profile</span>
+  </div>
+</div>
+
+<!-- ════════ LOGIN ════════ -->
+<div style="display:{{ loginShow }}; min-height:100vh; align-items:center; justify-content:center; padding:24px; background:{{ loginBg }}">
+  <div style="position:fixed; top:-200px; right:-200px; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle,rgba(21,101,192,.08) 0%,transparent 70%); pointer-events:none"></div>
+  <div style="width:100%; max-width:400px; animation:fadeIn .4s ease-out">
+    <div style="text-align:center; margin-bottom:32px">
+      <div style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; border-radius:14px; background:#1565C0; margin-bottom:12px">
+        <svg width="30" height="30" viewBox="0 0 28 28" fill="none"><path d="M8 10h4v8H8zM16 7h4v11h-4z" fill="#fff"></path><rect x="6" y="13" width="16" height="2.5" rx="1" fill="#fff"></rect></svg>
+      </div>
+      <div style="font-size:24px; font-weight:800; color:{{ txt }}; letter-spacing:-.5px">HealthHub</div>
+      <div style="font-size:14px; color:{{ txt2 }}; margin-top:4px">Beds · Ambulance · Blood Bank</div>
+    </div>
+    <div style="background:{{ card }}; border:1px solid {{ bdr }}; border-radius:16px; padding:28px 24px; box-shadow:0 4px 24px {{ shadow }}">
+      <div style="font-size:18px; font-weight:600; color:{{ txt }}; margin-bottom:4px">Welcome</div>
+      <div style="font-size:13px; color:{{ txt2 }}; margin-bottom:24px">Enter your phone number to get started</div>
+      <div style="margin-bottom:20px">
+        <label style="font-size:12px; font-weight:500; color:{{ txt2 }}; display:block; margin-bottom:6px">Phone Number</label>
+        <div style="display:flex; gap:8px">
+          <div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:14px; color:{{ txt2 }}; font-weight:500; width:72px; text-align:center">+880</div>
+          <div style="flex:1; padding:10px 14px; border-radius:8px; border:1.5px solid #1565C0; background:{{ inputBg }}; font-size:14px; color:{{ txt }}; font-weight:500; box-shadow:0 0 0 3px rgba(21,101,192,.1)">01712 345 678</div>
+        </div>
+      </div>
+      <div onClick="{{ doLogin }}" style="padding:12px; border-radius:8px; background:#1565C0; text-align:center; font-size:14px; font-weight:600; color:#fff; cursor:pointer; transition:all .15s" style-hover="background:#0D47A1" style-active="transform:scale(.98)">Send OTP →</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ OTP ════════ -->
+<div style="display:{{ otpShow }}; min-height:100vh; align-items:center; justify-content:center; padding:24px; background:{{ loginBg }}">
+  <div style="width:100%; max-width:400px; animation:fadeIn .4s ease-out">
+    <div style="text-align:center; margin-bottom:32px">
+      <div style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; border-radius:14px; background:#1565C0; margin-bottom:12px">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div style="font-size:20px; font-weight:700; color:{{ txt }}; letter-spacing:-.3px">Verify your number</div>
+      <div style="font-size:13px; color:{{ txt2 }}; margin-top:6px">We sent a code to +880 17** *** *78</div>
+    </div>
+    <div style="background:{{ card }}; border:1px solid {{ bdr }}; border-radius:16px; padding:28px 24px; box-shadow:0 4px 24px {{ shadow }}">
+      <div style="display:flex; gap:10px; justify-content:center; margin-bottom:24px">
+        <div style="width:48px; height:56px; border-radius:10px; border:2px solid #1565C0; background:{{ inputBg }}; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:{{ txt }}">4</div>
+        <div style="width:48px; height:56px; border-radius:10px; border:2px solid #1565C0; background:{{ inputBg }}; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:{{ txt }}">7</div>
+        <div style="width:48px; height:56px; border-radius:10px; border:2px solid #1565C0; background:{{ inputBg }}; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:{{ txt }}">2</div>
+        <div style="width:48px; height:56px; border-radius:10px; border:2px solid #1565C0; background:{{ inputBg }}; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:{{ txt }}">9</div>
+        <div style="width:48px; height:56px; border-radius:10px; border:1.5px solid {{ bdr }}; background:{{ inputBg }}; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:{{ txt3 }}">_</div>
+        <div style="width:48px; height:56px; border-radius:10px; border:1.5px solid {{ bdr }}; background:{{ inputBg }}; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; color:{{ txt3 }}">_</div>
+      </div>
+      <div onClick="{{ verifyOtp }}" style="padding:12px; border-radius:8px; background:#1565C0; text-align:center; font-size:14px; font-weight:600; color:#fff; cursor:pointer; transition:all .15s; margin-bottom:16px" style-hover="background:#0D47A1" style-active="transform:scale(.98)">Verify →</div>
+      <div style="text-align:center; font-size:13px; color:{{ txt3 }}">Resend code in <span style="font-weight:600; color:{{ txt2 }}">0:28</span></div>
+    </div>
+    <div onClick="{{ goLogin }}" style="text-align:center; margin-top:16px; font-size:13px; color:#1565C0; cursor:pointer; font-weight:500" style-hover="text-decoration:underline">← Change phone number</div>
+  </div>
+</div>
+
+<!-- ════════ SERVICES HOME ════════ -->
+<div style="display:{{ svcShow }}; padding:80px 24px 80px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:800px; margin:0 auto; width:100%; animation:fadeIn .4s ease-out">
+    <div style="margin-bottom:28px">
+      <div style="font-size:14px; font-weight:500; color:{{ txt2 }}">Hello, Rahim 👋</div>
+      <div style="font-size:26px; font-weight:800; color:{{ txt }}; letter-spacing:-.5px; margin-top:4px">Healthcare Services</div>
+    </div>
+    <!-- 3 Service Cards -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px">
+      <!-- Hospital Beds -->
+      <div onClick="{{ goBedHome }}" style="padding:24px 20px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:16px; cursor:pointer; transition:all .2s; position:relative; overflow:hidden" style-hover="border-color:#1565C0; box-shadow:0 4px 20px rgba(21,101,192,.12); transform:translateY(-2px)">
+        <div style="width:48px; height:48px; border-radius:12px; background:rgba(21,101,192,.1); display:flex; align-items:center; justify-content:center; margin-bottom:16px">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M8 10h4v8H8zM16 7h4v11h-4z" fill="#1565C0"></path><rect x="6" y="13" width="16" height="2.5" rx="1" fill="#1565C0"></rect></svg>
+        </div>
+        <div style="font-size:16px; font-weight:700; color:{{ txt }}; margin-bottom:4px">Hospital Beds</div>
+        <div style="font-size:12px; color:{{ txt2 }}; line-height:1.5; margin-bottom:14px">Find and reserve hospital beds in real-time across Dhaka</div>
+        <div style="display:flex; align-items:center; justify-content:space-between">
+          <div style="display:flex; align-items:center; gap:4px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32; animation:pulse 2s infinite"></div><span style="font-size:11px; font-weight:500; color:#2E7D32">47 hospitals live</span></div>
+          <div style="font-size:12px; font-weight:600; color:#1565C0">Open →</div>
+        </div>
+      </div>
+      <!-- Ambulance -->
+      <div onClick="{{ goAmbHome }}" style="padding:24px 20px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:16px; cursor:pointer; transition:all .2s; position:relative; overflow:hidden" style-hover="border-color:#C62828; box-shadow:0 4px 20px rgba(198,40,40,.12); transform:translateY(-2px)">
+        <div style="width:48px; height:48px; border-radius:12px; background:rgba(198,40,40,.1); display:flex; align-items:center; justify-content:center; margin-bottom:16px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 17h-2a1 1 0 01-1-1v-5a1 1 0 011-1h2l2-4h6l2 4h2a1 1 0 011 1v5a1 1 0 01-1 1h-2" stroke="#C62828" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="7.5" cy="17.5" r="2" stroke="#C62828" stroke-width="1.5"></circle><circle cx="16.5" cy="17.5" r="2" stroke="#C62828" stroke-width="1.5"></circle><path d="M12 6v4M10 8h4" stroke="#C62828" stroke-width="1.5" stroke-linecap="round"></path></svg>
+        </div>
+        <div style="font-size:16px; font-weight:700; color:{{ txt }}; margin-bottom:4px">Ambulance</div>
+        <div style="font-size:12px; color:{{ txt2 }}; line-height:1.5; margin-bottom:14px">Book emergency ambulance and track in real-time</div>
+        <div style="display:flex; align-items:center; justify-content:space-between">
+          <div style="display:flex; align-items:center; gap:4px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32; animation:pulse 2s infinite"></div><span style="font-size:11px; font-weight:500; color:#2E7D32">12 available</span></div>
+          <div style="font-size:12px; font-weight:600; color:#C62828">Open →</div>
+        </div>
+      </div>
+      <!-- Blood Bank -->
+      <div onClick="{{ goBloodHome }}" style="padding:24px 20px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:16px; cursor:pointer; transition:all .2s; position:relative; overflow:hidden" style-hover="border-color:#AD1457; box-shadow:0 4px 20px rgba(173,20,87,.12); transform:translateY(-2px)">
+        <div style="width:48px; height:48px; border-radius:12px; background:rgba(173,20,87,.1); display:flex; align-items:center; justify-content:center; margin-bottom:16px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2c0 0-8 9-8 14a8 8 0 0016 0c0-5-8-14-8-14z" stroke="#AD1457" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 12v4M10 14h4" stroke="#AD1457" stroke-width="1.5" stroke-linecap="round"></path></svg>
+        </div>
+        <div style="font-size:16px; font-weight:700; color:{{ txt }}; margin-bottom:4px">Blood Bank</div>
+        <div style="font-size:12px; color:{{ txt2 }}; line-height:1.5; margin-bottom:14px">Search blood availability and request emergency units</div>
+        <div style="display:flex; align-items:center; justify-content:space-between">
+          <div style="display:flex; align-items:center; gap:4px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32; animation:pulse 2s infinite"></div><span style="font-size:11px; font-weight:500; color:#2E7D32">8 banks online</span></div>
+          <div style="font-size:12px; font-weight:600; color:#AD1457">Open →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px">
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; text-align:center">
+        <div style="font-size:28px; font-weight:800; color:#1565C0; letter-spacing:-1px">22</div>
+        <div style="font-size:11px; color:{{ txt2 }}; margin-top:2px">Beds Available</div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; text-align:center">
+        <div style="font-size:28px; font-weight:800; color:#C62828; letter-spacing:-1px">12</div>
+        <div style="font-size:11px; color:{{ txt2 }}; margin-top:2px">Ambulances Ready</div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; text-align:center">
+        <div style="font-size:28px; font-weight:800; color:#AD1457; letter-spacing:-1px">156</div>
+        <div style="font-size:11px; color:{{ txt2 }}; margin-top:2px">Blood Units</div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; text-align:center">
+        <div style="font-size:28px; font-weight:800; color:#2E7D32; letter-spacing:-1px">47</div>
+        <div style="font-size:11px; color:{{ txt2 }}; margin-top:2px">Hospitals</div>
+      </div>
+    </div>
+
+    <!-- Emergency banner -->
+    <div style="padding:16px 20px; background:linear-gradient(135deg,#C62828,#D50000); border-radius:12px; display:flex; align-items:center; gap:14px; cursor:pointer" onClick="{{ goAmbHome }}">
+      <div style="width:44px; height:44px; border-radius:10px; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; flex-shrink:0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:15px; font-weight:700; color:#fff">Emergency? Call 999</div>
+        <div style="font-size:12px; color:rgba(255,255,255,.8); margin-top:2px">Tap for immediate emergency assistance</div>
+      </div>
+      <div style="font-size:20px; color:rgba(255,255,255,.6)">→</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ HOSPITAL BED HOME (existing map+list) ════════ -->
+<div style="display:{{ bedShow }}; height:100vh; padding-top:56px; padding-bottom:56px">
+  <div style="width:420px; background:{{ card }}; border-right:1px solid {{ bdr }}; display:flex; flex-direction:column; overflow:hidden">
+    <div style="padding:14px 14px 10px; border-bottom:1px solid {{ bdr }}">
+      <div style="display:flex; align-items:center; gap:8px">
+        <div onClick="{{ goServices }}" style="width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+        <div style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; border:1px solid {{ bdr }}; background:{{ inputBg }}">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="{{ txt3 }}" stroke-width="1.5"></circle><path d="M11 11l3.5 3.5" stroke="{{ txt3 }}" stroke-width="1.5" stroke-linecap="round"></path></svg>
+          <span style="font-size:12px; color:{{ txt3 }}">Search hospitals...</span>
+        </div>
+      </div>
+      <div style="display:flex; gap:5px; margin-top:8px; flex-wrap:wrap">
+        <div style="padding:4px 12px; border-radius:16px; background:#1565C0; color:#fff; font-size:11px; font-weight:500; cursor:pointer">All beds</div>
+        <div style="padding:4px 12px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#1565C0; color:#1565C0">ICU</div>
+        <div style="padding:4px 12px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#1565C0; color:#1565C0">NICU</div>
+        <div style="padding:4px 12px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#1565C0; color:#1565C0">General</div>
+      </div>
+    </div>
+    <div style="padding:6px 14px; font-size:11px; color:{{ txt3 }}">12 hospitals found</div>
+    <div style="flex:1; overflow-y:auto; padding:0 10px 10px">
+      <div onClick="{{ goDetail }}" style="padding:12px; border-radius:12px; border:1px solid {{ bdr }}; margin-bottom:6px; cursor:pointer; transition:all .15s; background:{{ card }}" style-hover="border-color:#1565C0; box-shadow:0 2px 12px rgba(21,101,192,.08)">
+        <div style="display:flex; justify-content:space-between"><div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Dhaka Medical College</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">2.3 km</div></div><div style="display:flex; align-items:center; gap:3px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32"></div><span style="font-size:10px; font-weight:500; color:#2E7D32">Open</span></div></div>
+        <div style="display:flex; gap:5px; margin-top:8px"><div style="padding:3px 8px; border-radius:6px; background:{{ successBg }}; font-size:10px; font-weight:600; color:#2E7D32">ICU: 5</div><div style="padding:3px 8px; border-radius:6px; background:{{ warnBg }}; font-size:10px; font-weight:600; color:#E65100">NICU: 2</div><div style="padding:3px 8px; border-radius:6px; background:{{ successBg }}; font-size:10px; font-weight:600; color:#2E7D32">Gen: 15</div></div>
+      </div>
+      <div onClick="{{ goDetail }}" style="padding:12px; border-radius:12px; border:1px solid {{ bdr }}; margin-bottom:6px; cursor:pointer; transition:all .15s; background:{{ card }}" style-hover="border-color:#1565C0">
+        <div style="display:flex; justify-content:space-between"><div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Square Hospital</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">4.1 km</div></div><div style="display:flex; align-items:center; gap:3px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32"></div><span style="font-size:10px; font-weight:500; color:#2E7D32">Open</span></div></div>
+        <div style="display:flex; gap:5px; margin-top:8px"><div style="padding:3px 8px; border-radius:6px; background:{{ errBg }}; font-size:10px; font-weight:600; color:#C62828">ICU: 0</div><div style="padding:3px 8px; border-radius:6px; background:{{ successBg }}; font-size:10px; font-weight:600; color:#2E7D32">NICU: 3</div><div style="padding:3px 8px; border-radius:6px; background:{{ warnBg }}; font-size:10px; font-weight:600; color:#E65100">Gen: 4</div></div>
+      </div>
+      <div onClick="{{ goDetail }}" style="padding:12px; border-radius:12px; border:1px solid {{ bdr }}; margin-bottom:6px; cursor:pointer; transition:all .15s; background:{{ card }}" style-hover="border-color:#1565C0">
+        <div style="display:flex; justify-content:space-between"><div><div style="font-size:13px; font-weight:600; color:{{ txt }}">United Hospital</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">5.7 km</div></div><div style="display:flex; align-items:center; gap:3px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32"></div><span style="font-size:10px; font-weight:500; color:#2E7D32">Open</span></div></div>
+        <div style="display:flex; gap:5px; margin-top:8px"><div style="padding:3px 8px; border-radius:6px; background:{{ successBg }}; font-size:10px; font-weight:600; color:#2E7D32">ICU: 8</div><div style="padding:3px 8px; border-radius:6px; background:{{ successBg }}; font-size:10px; font-weight:600; color:#2E7D32">NICU: 6</div><div style="padding:3px 8px; border-radius:6px; background:{{ successBg }}; font-size:10px; font-weight:600; color:#2E7D32">Gen: 22</div></div>
+      </div>
+      <div style="padding:12px; border-radius:12px; border:1px solid {{ bdr }}; margin-bottom:6px; opacity:.6; background:{{ card }}">
+        <div style="display:flex; justify-content:space-between"><div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Apollo Dhaka</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">8.2 km</div></div><div style="display:flex; align-items:center; gap:3px"><div style="width:6px; height:6px; border-radius:50%; background:#C62828"></div><span style="font-size:10px; font-weight:500; color:#C62828">Full</span></div></div>
+        <div style="display:flex; gap:5px; margin-top:8px"><div style="padding:3px 8px; border-radius:6px; background:{{ errBg }}; font-size:10px; font-weight:600; color:#C62828">ICU: 0</div><div style="padding:3px 8px; border-radius:6px; background:{{ errBg }}; font-size:10px; font-weight:600; color:#C62828">NICU: 0</div><div style="padding:3px 8px; border-radius:6px; background:{{ warnBg }}; font-size:10px; font-weight:600; color:#E65100">Gen: 1</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1; position:relative; background:{{ mapBg }}; overflow:hidden">
+    <svg style="position:absolute; inset:0; width:100%; height:100%; opacity:.2" viewBox="0 0 800 700" preserveAspectRatio="xMidYMid slice"><path d="M0,200 L800,200" stroke="{{ mapLine }}" stroke-width="2" fill="none"></path><path d="M0,400 L800,400" stroke="{{ mapLine }}" stroke-width="1.5" fill="none"></path><path d="M200,0 L200,700" stroke="{{ mapLine }}" stroke-width="1.5" fill="none"></path><path d="M500,0 L500,700" stroke="{{ mapLine }}" stroke-width="2" fill="none"></path><path d="M50,350 Q200,280 350,340 Q500,400 650,320" fill="none" stroke="{{ riverClr }}" stroke-width="18" opacity=".3" stroke-linecap="round"></path></svg>
+    <div style="position:absolute; top:140px; left:180px; cursor:pointer" onClick="{{ goDetail }}"><div style="width:32px; height:32px; border-radius:50%; background:#2E7D32; border:3px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.25); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff">5</div><div style="font-size:9px; font-weight:600; color:{{ txt }}; text-align:center; margin-top:2px; background:{{ card }}; padding:1px 5px; border-radius:3px; box-shadow:0 1px 2px rgba(0,0,0,.1)">Dhaka Med</div></div>
+    <div style="position:absolute; top:250px; left:400px"><div style="width:32px; height:32px; border-radius:50%; background:#F57F17; border:3px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.25); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff">3</div></div>
+    <div style="position:absolute; top:170px; left:550px"><div style="width:32px; height:32px; border-radius:50%; background:#C62828; border:3px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,.25); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff">0</div></div>
+    <div style="position:absolute; top:280px; left:340px"><div style="width:14px; height:14px; border-radius:50%; background:#1565C0; border:3px solid #fff; box-shadow:0 0 0 6px rgba(21,101,192,.15)"></div></div>
+    <div style="position:absolute; bottom:12px; left:12px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:8px; padding:8px 12px; display:flex; gap:12px; box-shadow:0 1px 3px {{ shadow }}">
+      <span style="display:flex; align-items:center; gap:4px; font-size:10px; font-weight:500; color:{{ txt2 }}"><span style="width:7px; height:7px; border-radius:50%; background:#2E7D32"></span>5+</span>
+      <span style="display:flex; align-items:center; gap:4px; font-size:10px; font-weight:500; color:{{ txt2 }}"><span style="width:7px; height:7px; border-radius:50%; background:#F57F17"></span>1–4</span>
+      <span style="display:flex; align-items:center; gap:4px; font-size:10px; font-weight:500; color:{{ txt2 }}"><span style="width:7px; height:7px; border-radius:50%; background:#C62828"></span>Full</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ HOSPITAL DETAIL ════════ -->
+<div style="display:{{ detailShow }}; padding-top:56px; padding-bottom:56px; min-height:100vh; background:{{ bg }}; flex-direction:column">
+  <div style="max-width:720px; margin:0 auto; padding:0 0 80px; width:100%">
+    <div style="height:180px; background:linear-gradient(135deg,#1565C0 0%,#0D47A1 50%,#00897B 100%); position:relative; display:flex; align-items:center; justify-content:center">
+      <svg width="40" height="40" viewBox="0 0 28 28" fill="none" opacity=".3"><path d="M8 10h4v8H8zM16 7h4v11h-4z" fill="#fff"></path><rect x="6" y="13" width="16" height="2.5" rx="1" fill="#fff"></rect></svg>
+      <div onClick="{{ goBedHome }}" style="position:absolute; top:14px; left:14px; width:34px; height:34px; border-radius:8px; background:rgba(0,0,0,.3); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-size:15px" style-hover="background:rgba(0,0,0,.5)">←</div>
+    </div>
+    <div style="padding:20px; animation:slideUp .3s ease-out">
+      <div style="font-size:22px; font-weight:700; color:{{ txt }}; letter-spacing:-.5px">Dhaka Medical College Hospital</div>
+      <div style="font-size:13px; color:{{ txt2 }}; margin-top:3px">Secretariat Road · 2.3 km away</div>
+      <div style="display:flex; gap:6px; margin-top:14px">
+        <div style="padding:7px 14px; border-radius:8px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#1565C0; color:#1565C0">📞 Call</div>
+        <div style="padding:7px 14px; border-radius:8px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#1565C0; color:#1565C0">📍 Directions</div>
+      </div>
+      <div style="margin-top:20px">
+        <div style="font-size:15px; font-weight:600; color:{{ txt }}; margin-bottom:10px">Bed Availability</div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px">
+          <div style="padding:16px 12px; background:{{ card }}; border-radius:10px; border:2px solid rgba(46,125,50,.2); text-align:center"><div style="font-size:32px; font-weight:800; color:#2E7D32">5</div><div style="font-size:12px; font-weight:500; color:{{ txt2 }}; margin-top:2px">ICU</div><div style="margin-top:6px; height:3px; background:{{ bdr }}; border-radius:2px"><div style="width:50%; height:100%; background:#2E7D32; border-radius:2px"></div></div></div>
+          <div style="padding:16px 12px; background:{{ card }}; border-radius:10px; border:2px solid rgba(245,127,23,.2); text-align:center"><div style="font-size:32px; font-weight:800; color:#F57F17">2</div><div style="font-size:12px; font-weight:500; color:{{ txt2 }}; margin-top:2px">NICU</div><div style="margin-top:6px; height:3px; background:{{ bdr }}; border-radius:2px"><div style="width:40%; height:100%; background:#F57F17; border-radius:2px"></div></div></div>
+          <div style="padding:16px 12px; background:{{ card }}; border-radius:10px; border:2px solid rgba(46,125,50,.2); text-align:center"><div style="font-size:32px; font-weight:800; color:#2E7D32">15</div><div style="font-size:12px; font-weight:500; color:{{ txt2 }}; margin-top:2px">General</div><div style="margin-top:6px; height:3px; background:{{ bdr }}; border-radius:2px"><div style="width:50%; height:100%; background:#2E7D32; border-radius:2px"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div style="position:fixed; bottom:56px; left:0; right:0; padding:10px 20px; background:{{ navBg }}; border-top:1px solid {{ bdr }}; backdrop-filter:blur(12px)">
+      <div style="max-width:720px; margin:0 auto"><div onClick="{{ goReserve }}" style="padding:12px; border-radius:10px; background:#1565C0; text-align:center; font-size:14px; font-weight:600; color:#fff; cursor:pointer" style-hover="background:#0D47A1" style-active="transform:scale(.98)">Reserve a Bed →</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ AMBULANCE HOME ════════ -->
+<div style="display:{{ ambHomeShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:720px; margin:0 auto; width:100%; animation:fadeIn .4s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px">
+      <div onClick="{{ goServices }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:22px; font-weight:700; color:{{ txt }}; letter-spacing:-.3px">Ambulance Service</div>
+    </div>
+    <!-- Emergency call -->
+    <div onClick="{{ goAmbReq }}" style="padding:18px 20px; background:linear-gradient(135deg,#C62828,#D50000); border-radius:14px; display:flex; align-items:center; gap:14px; cursor:pointer; margin-bottom:20px; transition:transform .15s" style-active="transform:scale(.98)">
+      <div style="width:48px; height:48px; border-radius:12px; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; flex-shrink:0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div><div style="font-size:16px; font-weight:700; color:#fff">Emergency Call</div><div style="font-size:12px; color:rgba(255,255,255,.8); margin-top:2px">Tap for immediate dispatch</div></div>
+    </div>
+    <!-- Map preview -->
+    <div style="height:180px; background:{{ mapBg }}; border-radius:14px; border:1px solid {{ bdr }}; position:relative; overflow:hidden; margin-bottom:20px">
+      <svg style="position:absolute; inset:0; width:100%; height:100%; opacity:.15" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice"><path d="M0,150 L800,150" stroke="{{ mapLine }}" stroke-width="2" fill="none"></path><path d="M0,300 L800,300" stroke="{{ mapLine }}" stroke-width="1.5" fill="none"></path><path d="M300,0 L300,400" stroke="{{ mapLine }}" stroke-width="2" fill="none"></path></svg>
+      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%)"><div style="width:14px; height:14px; border-radius:50%; background:#1565C0; border:3px solid #fff; box-shadow:0 0 0 6px rgba(21,101,192,.15)"></div></div>
+      <!-- Ambulance markers -->
+      <div style="position:absolute; top:30%; left:30%"><div style="width:28px; height:28px; border-radius:50%; background:#C62828; border:2px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; font-size:12px">🚑</div></div>
+      <div style="position:absolute; top:60%; left:65%"><div style="width:28px; height:28px; border-radius:50%; background:#2E7D32; border:2px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; font-size:12px">🚑</div></div>
+      <div style="position:absolute; top:25%; left:70%"><div style="width:28px; height:28px; border-radius:50%; background:#2E7D32; border:2px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; font-size:12px">🚑</div></div>
+      <div style="position:absolute; bottom:10px; left:10px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:8px; padding:6px 10px; font-size:10px; font-weight:500; color:{{ txt2 }}">📍 Dhanmondi, Dhaka</div>
+    </div>
+    <!-- Actions -->
+    <div style="display:flex; gap:10px; margin-bottom:24px">
+      <div onClick="{{ goAmbReq }}" style="flex:1; padding:14px; border-radius:10px; background:#C62828; text-align:center; font-size:14px; font-weight:600; color:#fff; cursor:pointer; transition:all .15s" style-hover="background:#B71C1C" style-active="transform:scale(.98)">Book Ambulance</div>
+      <div onClick="{{ goAmbList }}" style="flex:1; padding:14px; border-radius:10px; border:1px solid {{ bdr }}; text-align:center; font-size:14px; font-weight:600; color:{{ txt }}; cursor:pointer; transition:all .15s" style-hover="border-color:#C62828; color:#C62828">View Nearby</div>
+    </div>
+    <!-- Nearby hospitals -->
+    <div style="font-size:15px; font-weight:600; color:{{ txt }}; margin-bottom:10px">Nearby Hospitals</div>
+    <div style="display:flex; flex-direction:column; gap:6px">
+      <div style="padding:12px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; display:flex; justify-content:space-between; align-items:center">
+        <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Dhaka Medical College</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">2.3 km · Emergency 24/7</div></div>
+        <div style="display:flex; align-items:center; gap:3px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32"></div><span style="font-size:10px; font-weight:500; color:#2E7D32">Open</span></div>
+      </div>
+      <div style="padding:12px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; display:flex; justify-content:space-between; align-items:center">
+        <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Square Hospital</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">4.1 km · Emergency 24/7</div></div>
+        <div style="display:flex; align-items:center; gap:3px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32"></div><span style="font-size:10px; font-weight:500; color:#2E7D32">Open</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ NEARBY AMBULANCES LIST ════════ -->
+<div style="display:{{ ambListShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:640px; margin:0 auto; width:100%; animation:fadeIn .3s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px">
+      <div onClick="{{ goAmbHome }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:20px; font-weight:700; color:{{ txt }}">Nearby Ambulances</div>
+    </div>
+    <div style="display:flex; gap:5px; margin-bottom:16px">
+      <div style="padding:5px 14px; border-radius:16px; background:#C62828; color:#fff; font-size:11px; font-weight:500; cursor:pointer">All</div>
+      <div style="padding:5px 14px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#C62828; color:#C62828">Nearest</div>
+      <div style="padding:5px 14px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#C62828; color:#C62828">Government</div>
+      <div style="padding:5px 14px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#C62828; color:#C62828">Private</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px">
+      <div onClick="{{ goAmbReq }}" style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; cursor:pointer; transition:all .15s" style-hover="border-color:#C62828">
+        <div style="display:flex; justify-content:space-between; align-items:start">
+          <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Mohammad Karim</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">DHA-1245 · 1.2 km away</div></div>
+          <div style="padding:4px 10px; border-radius:16px; background:{{ successBg }}; font-size:11px; font-weight:600; color:#2E7D32">Available</div>
+        </div>
+        <div style="display:flex; gap:16px; margin-top:10px"><span style="font-size:12px; color:{{ txt2 }}">ETA: <span style="font-weight:600; color:{{ txt }}">4 min</span></span><span style="font-size:12px; color:{{ txt2 }}">Type: <span style="font-weight:600; color:{{ txt }}">Advanced</span></span></div>
+      </div>
+      <div onClick="{{ goAmbReq }}" style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; cursor:pointer; transition:all .15s" style-hover="border-color:#C62828">
+        <div style="display:flex; justify-content:space-between; align-items:start">
+          <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Rafiq Hasan</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">DHA-2301 · 2.5 km away</div></div>
+          <div style="padding:4px 10px; border-radius:16px; background:{{ successBg }}; font-size:11px; font-weight:600; color:#2E7D32">Available</div>
+        </div>
+        <div style="display:flex; gap:16px; margin-top:10px"><span style="font-size:12px; color:{{ txt2 }}">ETA: <span style="font-weight:600; color:{{ txt }}">7 min</span></span><span style="font-size:12px; color:{{ txt2 }}">Type: <span style="font-weight:600; color:{{ txt }}">Basic</span></span></div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; opacity:.6">
+        <div style="display:flex; justify-content:space-between; align-items:start">
+          <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Alam Khan</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">DHA-3890 · 3.1 km away</div></div>
+          <div style="padding:4px 10px; border-radius:16px; background:{{ warnBg }}; font-size:11px; font-weight:600; color:#E65100">On Trip</div>
+        </div>
+        <div style="display:flex; gap:16px; margin-top:10px"><span style="font-size:12px; color:{{ txt2 }}">ETA: <span style="font-weight:600; color:{{ txt }}">~15 min</span></span><span style="font-size:12px; color:{{ txt2 }}">Type: <span style="font-weight:600; color:{{ txt }}">Advanced</span></span></div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; opacity:.6">
+        <div style="display:flex; justify-content:space-between; align-items:start">
+          <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Jamal Uddin</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">DHA-5567 · 4.8 km away</div></div>
+          <div style="padding:4px 10px; border-radius:16px; background:{{ errBg }}; font-size:11px; font-weight:600; color:#C62828">Busy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ REQUEST AMBULANCE FORM ════════ -->
+<div style="display:{{ ambReqShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:560px; margin:0 auto; width:100%; animation:slideUp .3s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px">
+      <div onClick="{{ goAmbHome }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:20px; font-weight:700; color:{{ txt }}">Request Ambulance</div>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:12px">Patient Information</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px">
+      <div><label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Patient Name *</label><div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:13px; color:{{ txt }}">Rahim Uddin</div></div>
+      <div><label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Phone *</label><div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:13px; color:{{ txt }}">+880 1712 345 678</div></div>
+    </div>
+    <div style="margin-bottom:20px">
+      <label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Pickup Location *</label>
+      <div style="padding:10px 12px; border-radius:8px; border:1.5px solid #C62828; background:{{ inputBg }}; font-size:13px; color:{{ txt }}; display:flex; align-items:center; gap:8px; box-shadow:0 0 0 3px rgba(198,40,40,.1)">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M16.5 8.5c0 5-6.5 9.5-6.5 9.5S3.5 13.5 3.5 8.5a6.5 6.5 0 1113 0z" stroke="#C62828" stroke-width="1.5"></path></svg>
+        Dhanmondi 27, Road 4, Dhaka
+      </div>
+    </div>
+    <div style="margin-bottom:20px">
+      <label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Destination Hospital *</label>
+      <div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:13px; color:{{ txt }}">Dhaka Medical College Hospital</div>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:12px">Emergency Level *</div>
+    <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:20px">
+      <div onClick="{{ pickAmbCrit }}" style="padding:12px 14px; border-radius:10px; border:2px solid {{ ambCritBdr }}; background:{{ ambCritBg }}; cursor:pointer; display:flex; align-items:center; gap:10px; transition:all .15s">
+        <div style="width:18px; height:18px; border-radius:50%; border:2px solid {{ ambCritBdr }}; display:flex; align-items:center; justify-content:center"><div style="width:{{ ambCritDot }}; height:{{ ambCritDot }}; border-radius:50%; background:#D50000"></div></div>
+        <div><div style="font-size:13px; font-weight:600; color:#D50000">Critical</div><div style="font-size:11px; color:{{ txt3 }}">Life-threatening emergency</div></div>
+      </div>
+      <div onClick="{{ pickAmbSer }}" style="padding:12px 14px; border-radius:10px; border:2px solid {{ ambSerBdr }}; background:{{ ambSerBg }}; cursor:pointer; display:flex; align-items:center; gap:10px; transition:all .15s">
+        <div style="width:18px; height:18px; border-radius:50%; border:2px solid {{ ambSerBdr }}; display:flex; align-items:center; justify-content:center"><div style="width:{{ ambSerDot }}; height:{{ ambSerDot }}; border-radius:50%; background:#F57F17"></div></div>
+        <div><div style="font-size:13px; font-weight:600; color:#E65100">Serious</div><div style="font-size:11px; color:{{ txt3 }}">Urgent but stable</div></div>
+      </div>
+      <div onClick="{{ pickAmbNorm }}" style="padding:12px 14px; border-radius:10px; border:2px solid {{ ambNormBdr }}; background:{{ ambNormBg }}; cursor:pointer; display:flex; align-items:center; gap:10px; transition:all .15s">
+        <div style="width:18px; height:18px; border-radius:50%; border:2px solid {{ ambNormBdr }}; display:flex; align-items:center; justify-content:center"><div style="width:{{ ambNormDot }}; height:{{ ambNormDot }}; border-radius:50%; background:#1565C0"></div></div>
+        <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Normal</div><div style="font-size:11px; color:{{ txt3 }}">Non-emergency transport</div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:20px">
+      <label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Patient Condition (optional)</label>
+      <div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:13px; color:{{ txt3 }}; min-height:64px">Describe symptoms or condition...</div>
+    </div>
+    <div onClick="{{ goAmbTrack }}" style="padding:14px; border-radius:10px; background:#C62828; text-align:center; font-size:15px; font-weight:600; color:#fff; cursor:pointer; transition:all .15s" style-hover="background:#B71C1C" style-active="transform:scale(.98)">Submit Request →</div>
+  </div>
+</div>
+
+<!-- ════════ AMBULANCE TRACKING ════════ -->
+<div style="display:{{ ambTrackShow }}; padding-top:56px; padding-bottom:56px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="flex:1; position:relative; background:{{ mapBg }}; overflow:hidden; min-height:300px">
+    <svg style="position:absolute; inset:0; width:100%; height:100%; opacity:.15" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice"><path d="M0,150 L800,150" stroke="{{ mapLine }}" stroke-width="2" fill="none"></path><path d="M0,350 L800,350" stroke="{{ mapLine }}" stroke-width="1.5" fill="none"></path><path d="M400,0 L400,500" stroke="{{ mapLine }}" stroke-width="2" fill="none"></path></svg>
+    <!-- Route line -->
+    <svg style="position:absolute; inset:0; width:100%; height:100%" viewBox="0 0 800 500"><path d="M200,350 Q300,200 500,180" stroke="#C62828" stroke-width="4" stroke-dasharray="8 6" fill="none" opacity=".6"></path></svg>
+    <div style="position:absolute; top:55%; left:25%"><div style="width:14px; height:14px; border-radius:50%; background:#1565C0; border:3px solid #fff; box-shadow:0 0 0 6px rgba(21,101,192,.15)"></div><div style="font-size:9px; font-weight:600; color:{{ txt }}; background:{{ card }}; padding:1px 5px; border-radius:3px; margin-top:2px; text-align:center; box-shadow:0 1px 2px rgba(0,0,0,.1)">You</div></div>
+    <div style="position:absolute; top:30%; left:60%"><div style="width:32px; height:32px; border-radius:50%; background:#C62828; border:3px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,.3); display:flex; align-items:center; justify-content:center; font-size:14px">🚑</div><div style="font-size:9px; font-weight:600; color:{{ txt }}; background:{{ card }}; padding:1px 5px; border-radius:3px; margin-top:2px; text-align:center; box-shadow:0 1px 2px rgba(0,0,0,.1)">DHA-1245</div></div>
+  </div>
+  <!-- Bottom panel -->
+  <div style="padding:20px; background:{{ card }}; border-top:1px solid {{ bdr }}; border-radius:20px 20px 0 0; margin-top:-20px; position:relative; z-index:10; animation:slideUp .3s ease-out">
+    <div style="width:40px; height:4px; background:{{ bdr }}; border-radius:2px; margin:0 auto 16px"></div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px">
+      <div>
+        <div style="font-size:12px; font-weight:500; color:#2E7D32">Driver is on the way</div>
+        <div style="font-size:24px; font-weight:800; color:{{ txt }}; letter-spacing:-.5px; margin-top:2px">ETA: 4 min</div>
+      </div>
+      <div style="padding:6px 14px; border-radius:16px; background:{{ successBg }}; font-size:12px; font-weight:600; color:#2E7D32">En Route</div>
+    </div>
+    <div style="padding:14px; background:{{ inputBg }}; border-radius:10px; display:flex; align-items:center; gap:12px; margin-bottom:14px">
+      <div style="width:40px; height:40px; border-radius:10px; background:rgba(198,40,40,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:18px">🚑</div>
+      <div style="flex:1"><div style="font-size:14px; font-weight:600; color:{{ txt }}">Mohammad Karim</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:1px">DHA-1245 · Advanced Life Support</div></div>
+    </div>
+    <div style="display:flex; gap:8px">
+      <div style="flex:1; padding:10px; border-radius:8px; border:1px solid {{ bdr }}; text-align:center; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer; transition:all .15s" style-hover="border-color:#1565C0; color:#1565C0">📞 Call</div>
+      <div style="flex:1; padding:10px; border-radius:8px; border:1px solid {{ bdr }}; text-align:center; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer; transition:all .15s" style-hover="border-color:#1565C0; color:#1565C0">💬 Chat</div>
+      <div onClick="{{ goAmbSuccess }}" style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(198,40,40,.3); text-align:center; font-size:13px; font-weight:500; color:#C62828; cursor:pointer" style-hover="background:rgba(198,40,40,.04)">Cancel</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ AMBULANCE SUCCESS ════════ -->
+<div style="display:{{ ambSuccessShow }}; padding:72px 24px 72px; min-height:100vh; align-items:center; justify-content:center; flex-direction:column; background:{{ bg }}">
+  <div style="text-align:center; max-width:400px; animation:scaleIn .5s ease-out">
+    <div style="width:80px; height:80px; border-radius:50%; background:rgba(46,125,50,.1); display:flex; align-items:center; justify-content:center; margin:0 auto 20px">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="#2E7D32" stroke-width="2.5"></circle><path d="M12 20l5 5 11-11" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="50" stroke-dashoffset="0" style="animation:checkDraw .6s ease-out .3s both"></path></svg>
+    </div>
+    <div style="font-size:22px; font-weight:800; color:{{ txt }}; letter-spacing:-.3px">Ambulance Confirmed!</div>
+    <div style="font-size:14px; color:{{ txt2 }}; margin-top:8px">Your ambulance is on the way</div>
+    <div style="background:{{ card }}; border:1px solid {{ bdr }}; border-radius:14px; padding:20px; margin-top:24px; text-align:left">
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px"><span style="font-size:12px; color:{{ txt3 }}">Booking ID</span><span style="font-size:12px; font-weight:600; color:{{ txt }}">AMB-2026-0847</span></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px"><span style="font-size:12px; color:{{ txt3 }}">Driver</span><span style="font-size:12px; font-weight:600; color:{{ txt }}">Mohammad Karim</span></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px"><span style="font-size:12px; color:{{ txt3 }}">Vehicle</span><span style="font-size:12px; font-weight:600; color:{{ txt }}">DHA-1245</span></div>
+      <div style="display:flex; justify-content:space-between"><span style="font-size:12px; color:{{ txt3 }}">Est. Arrival</span><span style="font-size:12px; font-weight:600; color:#2E7D32">4 minutes</span></div>
+    </div>
+    <div onClick="{{ goServices }}" style="margin-top:20px; padding:12px; border-radius:8px; background:#1565C0; text-align:center; font-size:14px; font-weight:600; color:#fff; cursor:pointer" style-hover="background:#0D47A1">Back to Home</div>
+  </div>
+</div>
+
+<!-- ════════ BLOOD BANK HOME ════════ -->
+<div style="display:{{ bloodHomeShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:720px; margin:0 auto; width:100%; animation:fadeIn .4s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px">
+      <div onClick="{{ goServices }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:22px; font-weight:700; color:{{ txt }}; letter-spacing:-.3px">Blood Bank</div>
+    </div>
+    <!-- Emergency -->
+    <div onClick="{{ goBloodReq }}" style="padding:16px 20px; background:linear-gradient(135deg,#AD1457,#C2185B); border-radius:14px; display:flex; align-items:center; gap:14px; cursor:pointer; margin-bottom:20px; transition:transform .15s" style-active="transform:scale(.98)">
+      <div style="width:44px; height:44px; border-radius:10px; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; flex-shrink:0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2c0 0-8 9-8 14a8 8 0 0016 0c0-5-8-14-8-14z" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div><div style="font-size:15px; font-weight:700; color:#fff">Emergency Blood Request</div><div style="font-size:12px; color:rgba(255,255,255,.8); margin-top:2px">Request blood units urgently</div></div>
+    </div>
+    <!-- Search -->
+    <div style="margin-bottom:20px">
+      <div onClick="{{ goBloodSearch }}" style="display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px; border:1px solid {{ bdr }}; background:{{ inputBg }}; cursor:pointer" style-hover="border-color:#AD1457">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="{{ txt3 }}" stroke-width="1.5"></circle><path d="M11 11l3.5 3.5" stroke="{{ txt3 }}" stroke-width="1.5" stroke-linecap="round"></path></svg>
+        <span style="font-size:13px; color:{{ txt3 }}">Search blood group, blood bank...</span>
+      </div>
+    </div>
+    <!-- Blood groups grid -->
+    <div style="font-size:15px; font-weight:600; color:{{ txt }}; margin-bottom:10px">Blood Groups</div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:24px">
+      <div onClick="{{ goBloodSearch }}" style="padding:16px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="font-size:22px; font-weight:800; color:#AD1457">A+</div>
+        <div style="font-size:10px; color:{{ txt3 }}; margin-top:2px">24 units</div>
+      </div>
+      <div onClick="{{ goBloodSearch }}" style="padding:16px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="font-size:22px; font-weight:800; color:#AD1457">B+</div>
+        <div style="font-size:10px; color:{{ txt3 }}; margin-top:2px">18 units</div>
+      </div>
+      <div onClick="{{ goBloodSearch }}" style="padding:16px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="font-size:22px; font-weight:800; color:#AD1457">O+</div>
+        <div style="font-size:10px; color:{{ txt3 }}; margin-top:2px">32 units</div>
+      </div>
+      <div onClick="{{ goBloodSearch }}" style="padding:16px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="font-size:22px; font-weight:800; color:#AD1457">AB+</div>
+        <div style="font-size:10px; color:{{ txt3 }}; margin-top:2px">8 units</div>
+      </div>
+      <div onClick="{{ goBloodSearch }}" style="padding:16px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="font-size:22px; font-weight:800; color:#C62828">A-</div>
+        <div style="font-size:10px; color:{{ txt3 }}; margin-top:2px">6 units</div>
+      </div>
+      <div onClick="{{ goBloodSearch }}" style="padding:16px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="font-size:22px; font-weight:800; color:#C62828">B-</div>
+        <div style="font-size:10px; color:{{ txt3 }}; margin-top:2px">4 units</div>
+      </div>
+      <div onClick="{{ goBloodSearch }}" style="padding:16px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="font-size:22px; font-weight:800; color:#C62828">O-</div>
+        <div style="font-size:10px; color:{{ txt3 }}; margin-top:2px">12 units</div>
+      </div>
+      <div onClick="{{ goBloodSearch }}" style="padding:16px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="font-size:22px; font-weight:800; color:#C62828">AB-</div>
+        <div style="font-size:10px; color:{{ txt3 }}; margin-top:2px">2 units</div>
+      </div>
+    </div>
+    <!-- Nearby banks -->
+    <div style="font-size:15px; font-weight:600; color:{{ txt }}; margin-bottom:10px">Nearby Blood Banks</div>
+    <div style="display:flex; flex-direction:column; gap:6px">
+      <div onClick="{{ goBloodDetail }}" style="padding:14px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="display:flex; justify-content:space-between; align-items:start"><div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Bangladesh Red Crescent</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">Mohakhali · 1.8 km</div></div><div style="display:flex; align-items:center; gap:3px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32"></div><span style="font-size:10px; font-weight:500; color:#2E7D32">Open</span></div></div>
+        <div style="display:flex; gap:5px; margin-top:8px"><span style="padding:3px 8px; border-radius:6px; background:rgba(173,20,87,.08); font-size:10px; font-weight:600; color:#AD1457">A+: 12</span><span style="padding:3px 8px; border-radius:6px; background:rgba(173,20,87,.08); font-size:10px; font-weight:600; color:#AD1457">B+: 8</span><span style="padding:3px 8px; border-radius:6px; background:rgba(173,20,87,.08); font-size:10px; font-weight:600; color:#AD1457">O+: 15</span></div>
+      </div>
+      <div onClick="{{ goBloodDetail }}" style="padding:14px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="display:flex; justify-content:space-between; align-items:start"><div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Quantum Blood Bank</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">Shantinagar · 3.2 km</div></div><div style="display:flex; align-items:center; gap:3px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32"></div><span style="font-size:10px; font-weight:500; color:#2E7D32">Open</span></div></div>
+        <div style="display:flex; gap:5px; margin-top:8px"><span style="padding:3px 8px; border-radius:6px; background:rgba(173,20,87,.08); font-size:10px; font-weight:600; color:#AD1457">A+: 6</span><span style="padding:3px 8px; border-radius:6px; background:rgba(173,20,87,.08); font-size:10px; font-weight:600; color:#AD1457">O-: 4</span><span style="padding:3px 8px; border-radius:6px; background:rgba(173,20,87,.08); font-size:10px; font-weight:600; color:#AD1457">B+: 10</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ BLOOD SEARCH RESULTS ════════ -->
+<div style="display:{{ bloodSearchShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:640px; margin:0 auto; width:100%; animation:fadeIn .3s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px">
+      <div onClick="{{ goBloodHome }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:20px; font-weight:700; color:{{ txt }}">Search: A+ Blood</div>
+    </div>
+    <div style="display:flex; gap:5px; margin-bottom:16px">
+      <div style="padding:5px 14px; border-radius:16px; background:#AD1457; color:#fff; font-size:11px; font-weight:500; cursor:pointer">A+</div>
+      <div style="padding:5px 14px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#AD1457; color:#AD1457">Nearest</div>
+      <div style="padding:5px 14px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#AD1457; color:#AD1457">Government</div>
+      <div style="padding:5px 14px; border-radius:16px; border:1px solid {{ bdr }}; font-size:11px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#AD1457; color:#AD1457">Available</div>
+    </div>
+    <div style="font-size:12px; color:{{ txt3 }}; margin-bottom:12px">3 blood banks found with A+ blood</div>
+    <div style="display:flex; flex-direction:column; gap:8px">
+      <div onClick="{{ goBloodDetail }}" style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="display:flex; justify-content:space-between; align-items:start"><div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Bangladesh Red Crescent</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">Mohakhali · 1.8 km</div></div><div style="padding:4px 12px; border-radius:16px; background:rgba(173,20,87,.08); font-size:13px; font-weight:700; color:#AD1457">12 units</div></div>
+        <div style="display:flex; gap:8px; margin-top:10px">
+          <div style="padding:7px 14px; border-radius:8px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#AD1457; color:#AD1457">📞 Contact</div>
+          <div style="padding:7px 14px; border-radius:8px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#AD1457; color:#AD1457">📍 Directions</div>
+          <div style="padding:7px 14px; border-radius:8px; background:#AD1457; font-size:12px; font-weight:600; color:#fff; cursor:pointer" style-hover="background:#880E4F">Reserve</div>
+        </div>
+      </div>
+      <div onClick="{{ goBloodDetail }}" style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; cursor:pointer; transition:all .15s" style-hover="border-color:#AD1457">
+        <div style="display:flex; justify-content:space-between; align-items:start"><div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Quantum Blood Bank</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">Shantinagar · 3.2 km</div></div><div style="padding:4px 12px; border-radius:16px; background:rgba(173,20,87,.08); font-size:13px; font-weight:700; color:#AD1457">6 units</div></div>
+        <div style="display:flex; gap:8px; margin-top:10px">
+          <div style="padding:7px 14px; border-radius:8px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:{{ txt2 }}; cursor:pointer">📞 Contact</div>
+          <div style="padding:7px 14px; border-radius:8px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:{{ txt2 }}; cursor:pointer">📍 Directions</div>
+          <div style="padding:7px 14px; border-radius:8px; background:#AD1457; font-size:12px; font-weight:600; color:#fff; cursor:pointer">Reserve</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ BLOOD DETAIL ════════ -->
+<div style="display:{{ bloodDetailShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:640px; margin:0 auto; width:100%; animation:slideUp .3s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px">
+      <div onClick="{{ goBloodHome }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:20px; font-weight:700; color:{{ txt }}">Blood Bank Details</div>
+    </div>
+    <div style="background:{{ card }}; border:1px solid {{ bdr }}; border-radius:14px; padding:20px; margin-bottom:16px">
+      <div style="font-size:18px; font-weight:700; color:{{ txt }}">Bangladesh Red Crescent</div>
+      <div style="font-size:13px; color:{{ txt2 }}; margin-top:4px">7/5 Mohakhali, Dhaka-1205</div>
+      <div style="font-size:13px; color:{{ txt2 }}; margin-top:2px">📞 +880 2-58315531</div>
+      <div style="display:flex; align-items:center; gap:4px; margin-top:8px"><div style="width:6px; height:6px; border-radius:50%; background:#2E7D32; animation:pulse 2s infinite"></div><span style="font-size:12px; font-weight:500; color:#2E7D32">Open · Last updated 5 min ago</span></div>
+    </div>
+    <div style="font-size:15px; font-weight:600; color:{{ txt }}; margin-bottom:10px">Available Blood Units</div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:20px">
+      <div style="padding:14px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center"><div style="font-size:20px; font-weight:800; color:#AD1457">12</div><div style="font-size:11px; font-weight:600; color:{{ txt2 }}; margin-top:2px">A+</div></div>
+      <div style="padding:14px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center"><div style="font-size:20px; font-weight:800; color:#AD1457">8</div><div style="font-size:11px; font-weight:600; color:{{ txt2 }}; margin-top:2px">B+</div></div>
+      <div style="padding:14px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center"><div style="font-size:20px; font-weight:800; color:#AD1457">15</div><div style="font-size:11px; font-weight:600; color:{{ txt2 }}; margin-top:2px">O+</div></div>
+      <div style="padding:14px 8px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:10px; text-align:center"><div style="font-size:20px; font-weight:800; color:#C62828">0</div><div style="font-size:11px; font-weight:600; color:{{ txt2 }}; margin-top:2px">AB-</div></div>
+    </div>
+    <div style="display:flex; gap:8px">
+      <div style="flex:1; padding:12px; border-radius:8px; border:1px solid {{ bdr }}; text-align:center; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#AD1457; color:#AD1457">📞 Call</div>
+      <div style="flex:1; padding:12px; border-radius:8px; border:1px solid {{ bdr }}; text-align:center; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#AD1457; color:#AD1457">📍 Navigate</div>
+      <div onClick="{{ goBloodReq }}" style="flex:1; padding:12px; border-radius:8px; background:#AD1457; text-align:center; font-size:13px; font-weight:600; color:#fff; cursor:pointer" style-hover="background:#880E4F">Reserve</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ BLOOD REQUEST FORM ════════ -->
+<div style="display:{{ bloodReqShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:560px; margin:0 auto; width:100%; animation:slideUp .3s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px">
+      <div onClick="{{ goBloodHome }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:20px; font-weight:700; color:{{ txt }}">Emergency Blood Request</div>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:12px">Patient Information</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px">
+      <div><label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Patient Name *</label><div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:13px; color:{{ txt }}">Rahim Uddin</div></div>
+      <div><label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Contact *</label><div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:13px; color:{{ txt }}">+880 1712 345 678</div></div>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:12px">Blood Group *</div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:20px">
+      <div onClick="{{ pickBgAp }}" style="padding:12px 8px; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s; background:{{ bgApBg }}; border:2px solid {{ bgApBdr }}; color:{{ bgApClr }}"><div style="font-size:16px; font-weight:800">A+</div></div>
+      <div onClick="{{ pickBgBp }}" style="padding:12px 8px; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s; background:{{ bgBpBg }}; border:2px solid {{ bgBpBdr }}; color:{{ bgBpClr }}"><div style="font-size:16px; font-weight:800">B+</div></div>
+      <div onClick="{{ pickBgOp }}" style="padding:12px 8px; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s; background:{{ bgOpBg }}; border:2px solid {{ bgOpBdr }}; color:{{ bgOpClr }}"><div style="font-size:16px; font-weight:800">O+</div></div>
+      <div onClick="{{ pickBgABp }}" style="padding:12px 8px; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s; background:{{ bgABpBg }}; border:2px solid {{ bgABpBdr }}; color:{{ bgABpClr }}"><div style="font-size:16px; font-weight:800">AB+</div></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px">
+      <div><label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Units Required *</label><div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:13px; color:{{ txt }}">2</div></div>
+      <div><label style="font-size:11px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:5px">Hospital *</label><div style="padding:10px 12px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:13px; color:{{ txt }}">Dhaka Medical</div></div>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:12px">Upload Prescription *</div>
+    <div style="padding:28px 20px; border-radius:12px; border:2px dashed {{ bdr }}; text-align:center; cursor:pointer; margin-bottom:20px" style-hover="border-color:#AD1457">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="margin-bottom:6px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="{{ txt3 }}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <div style="font-size:13px; font-weight:500; color:{{ txt2 }}">Tap to upload</div>
+      <div style="font-size:11px; color:{{ txt3 }}; margin-top:2px">JPG, PNG · Max 10MB</div>
+    </div>
+    <div onClick="{{ goBloodStatus }}" style="padding:14px; border-radius:10px; background:#AD1457; text-align:center; font-size:15px; font-weight:600; color:#fff; cursor:pointer; transition:all .15s" style-hover="background:#880E4F" style-active="transform:scale(.98)">Submit Request →</div>
+  </div>
+</div>
+
+<!-- ════════ BLOOD REQUEST STATUS ════════ -->
+<div style="display:{{ bloodStatusShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:560px; margin:0 auto; width:100%; animation:fadeIn .4s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px">
+      <div onClick="{{ goBloodHome }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:20px; font-weight:700; color:{{ txt }}">Request Status</div>
+    </div>
+    <!-- Active request -->
+    <div style="padding:20px; background:{{ card }}; border:2px solid rgba(173,20,87,.2); border-radius:14px; margin-bottom:20px">
+      <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:16px">
+        <div><div style="font-size:16px; font-weight:600; color:{{ txt }}">Blood Request #BR-0291</div><div style="font-size:12px; color:{{ txt2 }}; margin-top:2px">A+ · 2 units · Dhaka Medical</div></div>
+        <div style="padding:4px 12px; border-radius:16px; background:{{ successBg }}; font-size:12px; font-weight:600; color:#2E7D32">Approved ✓</div>
+      </div>
+      <!-- Progress -->
+      <div style="display:flex; flex-direction:column; gap:0; margin-bottom:16px">
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 0">
+          <div style="width:24px; height:24px; border-radius:50%; background:#2E7D32; display:flex; align-items:center; justify-content:center; flex-shrink:0"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div><div style="font-size:13px; font-weight:500; color:{{ txt }}">Request Submitted</div><div style="font-size:11px; color:{{ txt3 }}">Jul 12, 10:30 AM</div></div>
+        </div>
+        <div style="width:2px; height:16px; background:#2E7D32; margin-left:11px"></div>
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 0">
+          <div style="width:24px; height:24px; border-radius:50%; background:#2E7D32; display:flex; align-items:center; justify-content:center; flex-shrink:0"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div><div style="font-size:13px; font-weight:500; color:{{ txt }}">Approved</div><div style="font-size:11px; color:{{ txt3 }}">Jul 12, 10:35 AM</div></div>
+        </div>
+        <div style="width:2px; height:16px; background:{{ bdr }}; margin-left:11px"></div>
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 0">
+          <div style="width:24px; height:24px; border-radius:50%; background:{{ bdr }}; display:flex; align-items:center; justify-content:center; flex-shrink:0"><div style="width:8px; height:8px; border-radius:50%; background:{{ txt3 }}"></div></div>
+          <div><div style="font-size:13px; font-weight:500; color:{{ txt3 }}">Ready for Collection</div><div style="font-size:11px; color:{{ txt3 }}">Expected: 11:00 AM</div></div>
+        </div>
+      </div>
+      <div style="padding:12px; background:{{ inputBg }}; border-radius:8px; display:flex; justify-content:space-between; align-items:center">
+        <span style="font-size:12px; color:{{ txt3 }}">Expected Collection</span>
+        <span style="font-size:14px; font-weight:700; color:#AD1457">11:00 AM today</span>
+      </div>
+    </div>
+    <div onClick="{{ goServices }}" style="padding:12px; border-radius:8px; border:1px solid {{ bdr }}; text-align:center; font-size:14px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#1565C0; color:#1565C0">Back to Home</div>
+  </div>
+</div>
+
+<!-- ════════ NOTIFICATIONS ════════ -->
+<div style="display:{{ notifShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:640px; margin:0 auto; width:100%; animation:fadeIn .3s ease-out">
+    <div style="font-size:22px; font-weight:700; color:{{ txt }}; letter-spacing:-.3px; margin-bottom:16px">Notifications</div>
+    <div style="font-size:12px; font-weight:600; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px">Today</div>
+    <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:20px">
+      <div style="padding:14px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #2E7D32">
+        <div style="display:flex; align-items:start; gap:10px">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(46,125,50,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px">🚑</div>
+          <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Ambulance Assigned</div><div style="font-size:12px; color:{{ txt2 }}; margin-top:2px">Mohammad Karim (DHA-1245) is en route. ETA 4 min.</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:4px">2 min ago</div></div>
+        </div>
+      </div>
+      <div style="padding:14px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #AD1457">
+        <div style="display:flex; align-items:start; gap:10px">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(173,20,87,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px">🩸</div>
+          <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Blood Request Approved</div><div style="font-size:12px; color:{{ txt2 }}; margin-top:2px">Your A+ blood request has been approved. Collect by 11:00 AM.</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:4px">35 min ago</div></div>
+        </div>
+      </div>
+      <div style="padding:14px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #1565C0">
+        <div style="display:flex; align-items:start; gap:10px">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(21,101,192,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px">🛏️</div>
+          <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Bed Reservation Approved</div><div style="font-size:12px; color:{{ txt2 }}; margin-top:2px">ICU bed at Dhaka Medical confirmed. Hold expires in 18:42.</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:4px">1 hour ago</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:12px; font-weight:600; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px">Earlier</div>
+    <div style="display:flex; flex-direction:column; gap:6px">
+      <div style="padding:14px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #F57F17; opacity:.7">
+        <div style="display:flex; align-items:start; gap:10px">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(245,127,23,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px">⏰</div>
+          <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Bed Reservation Expired</div><div style="font-size:12px; color:{{ txt2 }}; margin-top:2px">Your ICU hold at United Hospital has expired.</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:4px">Yesterday, 3:15 PM</div></div>
+        </div>
+      </div>
+      <div style="padding:14px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #C62828; opacity:.7">
+        <div style="display:flex; align-items:start; gap:10px">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(198,40,40,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px">❌</div>
+          <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Blood Request Rejected</div><div style="font-size:12px; color:{{ txt2 }}; margin-top:2px">AB- blood not available at Quantum Blood Bank.</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:4px">Yesterday, 11:00 AM</div></div>
+        </div>
+      </div>
+      <div style="padding:14px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #2E7D32; opacity:.7">
+        <div style="display:flex; align-items:start; gap:10px">
+          <div style="width:36px; height:36px; border-radius:8px; background:rgba(46,125,50,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px">✅</div>
+          <div><div style="font-size:13px; font-weight:600; color:{{ txt }}">Driver Arrived</div><div style="font-size:12px; color:{{ txt2 }}; margin-top:2px">Ambulance DHA-2301 has arrived at your location.</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:4px">Jul 10, 2:30 PM</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ RESERVATION FORM (full) ════════ -->
+<div style="display:{{ reserveShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:560px; margin:0 auto; width:100%; animation:slideUp .3s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
+      <div onClick="{{ goDetail }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:20px; font-weight:700; color:{{ txt }}">Reserve a Bed</div>
+    </div>
+    <div style="font-size:13px; color:{{ txt2 }}; margin-bottom:20px; padding-left:42px">at Dhaka Medical College Hospital</div>
+    <div style="display:flex; gap:8px; align-items:center; margin-bottom:24px">
+      <div style="flex:1; height:3px; border-radius:2px; background:#1565C0"></div>
+      <div style="flex:1; height:3px; border-radius:2px; background:{{ bdr }}"></div>
+      <span style="font-size:11px; font-weight:500; color:{{ txt3 }}">Step 1 of 2</span>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:14px">Patient Information</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px">
+      <div><label style="font-size:12px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:6px">Full Name *</label><div style="padding:10px 14px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ inputBg }}; font-size:14px; color:{{ txt }}">Rahim Uddin</div></div>
+      <div><label style="font-size:12px; font-weight:500; color:{{ txt3 }}; display:block; margin-bottom:6px">Phone (verified) ✓</label><div style="padding:10px 14px; border-radius:8px; border:1px solid {{ bdr }}; background:{{ chip }}; font-size:14px; color:{{ txt3 }}">+880 1712 345 678</div></div>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:14px">Bed Type *</div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:24px">
+      <div onClick="{{ pickICU }}" style="padding:16px 12px; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s; background:{{ icuBg }}; border:2px solid {{ icuBdr }}; color:{{ icuClr }}"><div style="font-size:15px; font-weight:700">ICU</div><div style="font-size:12px; margin-top:2px; opacity:.7">5 available</div></div>
+      <div onClick="{{ pickNICU }}" style="padding:16px 12px; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s; background:{{ nicuBg }}; border:2px solid {{ nicuBdr }}; color:{{ nicuClr }}"><div style="font-size:15px; font-weight:700">NICU</div><div style="font-size:12px; margin-top:2px; opacity:.7">2 available</div></div>
+      <div onClick="{{ pickGen }}" style="padding:16px 12px; border-radius:10px; text-align:center; cursor:pointer; transition:all .15s; background:{{ genBg }}; border:2px solid {{ genBdr }}; color:{{ genClr }}"><div style="font-size:15px; font-weight:700">General</div><div style="font-size:12px; margin-top:2px; opacity:.7">15 available</div></div>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:14px">Priority Level *</div>
+    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:24px">
+      <div onClick="{{ pickCrit }}" style="padding:14px 16px; border-radius:10px; border:2px solid {{ critBdr }}; background:{{ critBg }}; cursor:pointer; display:flex; align-items:center; gap:12px; transition:all .15s">
+        <div style="width:20px; height:20px; border-radius:50%; border:2px solid {{ critBdr }}; display:flex; align-items:center; justify-content:center"><div style="width:{{ critDot }}; height:{{ critDot }}; border-radius:50%; background:#D50000"></div></div>
+        <div><div style="font-size:14px; font-weight:600; color:#D50000">Critical</div><div style="font-size:12px; color:{{ txt3 }}">Cardiac arrest, stroke, severe trauma</div></div>
+      </div>
+      <div onClick="{{ pickUrg }}" style="padding:14px 16px; border-radius:10px; border:2px solid {{ urgBdr }}; background:{{ urgBg }}; cursor:pointer; display:flex; align-items:center; gap:12px; transition:all .15s">
+        <div style="width:20px; height:20px; border-radius:50%; border:2px solid {{ urgBdr }}; display:flex; align-items:center; justify-content:center"><div style="width:{{ urgDot }}; height:{{ urgDot }}; border-radius:50%; background:#F57F17"></div></div>
+        <div><div style="font-size:14px; font-weight:600; color:#E65100">Urgent</div><div style="font-size:12px; color:{{ txt3 }}">Serious but stable condition</div></div>
+      </div>
+      <div onClick="{{ pickStd }}" style="padding:14px 16px; border-radius:10px; border:2px solid {{ stdBdr }}; background:{{ stdBg }}; cursor:pointer; display:flex; align-items:center; gap:12px; transition:all .15s">
+        <div style="width:20px; height:20px; border-radius:50%; border:2px solid {{ stdBdr }}; display:flex; align-items:center; justify-content:center"><div style="width:{{ stdDot }}; height:{{ stdDot }}; border-radius:50%; background:#1565C0"></div></div>
+        <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Standard</div><div style="font-size:12px; color:{{ txt3 }}">Planned admission, observation</div></div>
+      </div>
+    </div>
+    <div style="font-size:14px; font-weight:600; color:{{ txt }}; margin-bottom:14px">Prescription *</div>
+    <div style="padding:32px 24px; border-radius:12px; border:2px dashed {{ bdr }}; text-align:center; cursor:pointer; transition:all .15s; margin-bottom:24px" style-hover="border-color:#1565C0; background:rgba(21,101,192,.02)">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="margin-bottom:8px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="{{ txt3 }}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <div style="font-size:14px; font-weight:500; color:{{ txt2 }}">Tap to upload prescription</div>
+      <div style="font-size:12px; color:{{ txt3 }}; margin-top:4px">Camera or gallery · JPG, PNG · Max 10MB</div>
+    </div>
+    <div onClick="{{ goMyRes }}" style="padding:14px; border-radius:10px; background:#1565C0; text-align:center; font-size:15px; font-weight:600; color:#fff; cursor:pointer; transition:all .15s" style-hover="background:#0D47A1" style-active="transform:scale(.98)">Review &amp; Submit →</div>
+  </div>
+</div>
+
+<!-- ════════ MY RESERVATIONS ════════ -->
+<div style="display:{{ myResShow }}; padding:72px 24px 72px; min-height:100vh; flex-direction:column; background:{{ bg }}">
+  <div style="max-width:640px; margin:0 auto; padding:0; width:100%; animation:fadeIn .3s ease-out">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px">
+      <div onClick="{{ goServices }}" style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:{{ txt2 }}" style-hover="background:{{ hover }}">←</div>
+      <div style="font-size:22px; font-weight:700; color:{{ txt }}; letter-spacing:-.5px">My Reservations</div>
+    </div>
+    <div style="display:flex; gap:0; border-bottom:1px solid {{ bdr }}">
+      <div style="padding:10px 16px; border-bottom:2px solid #1565C0; font-size:13px; font-weight:600; color:#1565C0; cursor:pointer">Active (1)</div>
+      <div style="padding:10px 16px; font-size:13px; font-weight:500; color:{{ txt3 }}; cursor:pointer" style-hover="color:{{ txt2 }}">History (12)</div>
+    </div>
+    <div style="margin-top:20px; padding:24px; background:{{ card }}; border:2px solid rgba(21,101,192,.2); border-radius:16px">
+      <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:16px">
+        <div><div style="font-size:18px; font-weight:600; color:{{ txt }}">Dhaka Medical College</div><div style="font-size:13px; color:{{ txt2 }}; margin-top:2px">ICU · Standard priority</div></div>
+        <div style="padding:4px 12px; border-radius:16px; background:{{ successBg }}; font-size:12px; font-weight:600; color:#2E7D32">Approved ✓</div>
+      </div>
+      <div style="width:120px; height:120px; border:2px solid {{ bdr }}; border-radius:12px; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; background:{{ inputBg }}">
+        <div style="text-align:center">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="{{ txt3 }}" stroke-width="2"></rect><rect x="28" y="4" width="16" height="16" rx="2" stroke="{{ txt3 }}" stroke-width="2"></rect><rect x="4" y="28" width="16" height="16" rx="2" stroke="{{ txt3 }}" stroke-width="2"></rect><rect x="8" y="8" width="8" height="8" rx="1" fill="{{ txt3 }}"></rect><rect x="32" y="8" width="8" height="8" rx="1" fill="{{ txt3 }}"></rect><rect x="8" y="32" width="8" height="8" rx="1" fill="{{ txt3 }}"></rect></svg>
+          <div style="font-size:10px; color:{{ txt3 }}; margin-top:4px">Show at admission</div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-bottom:16px">
+        <div style="font-size:12px; font-weight:500; color:{{ txt3 }}">Hold expires in</div>
+        <div style="font-size:40px; font-weight:800; color:#E65100; letter-spacing:-1px; margin:4px 0">18:42</div>
+        <div style="height:6px; background:{{ bdr }}; border-radius:3px; overflow:hidden; margin-top:8px; max-width:300px; margin-left:auto; margin-right:auto"><div style="width:62%; height:100%; background:linear-gradient(90deg,#F57F17,#E65100); border-radius:3px"></div></div>
+      </div>
+      <div style="display:flex; gap:8px">
+        <div style="flex:1; padding:10px; border-radius:8px; border:1px solid {{ bdr }}; text-align:center; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer; transition:all .15s" style-hover="border-color:#1565C0; color:#1565C0">Get Directions</div>
+        <div style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(198,40,40,.3); text-align:center; font-size:13px; font-weight:500; color:#C62828; cursor:pointer; transition:all .15s" style-hover="background:rgba(198,40,40,.04)">Cancel</div>
+      </div>
+    </div>
+    <div style="font-size:16px; font-weight:600; color:{{ txt }}; margin-top:28px; margin-bottom:12px">Recent History</div>
+    <div style="display:flex; flex-direction:column; gap:8px">
+      <div style="padding:14px 16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
+        <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Square Hospital</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">NICU · Jul 5, 2026</div></div>
+        <div style="padding:3px 10px; border-radius:16px; background:{{ successBg }}; font-size:11px; font-weight:600; color:#2E7D32">Admitted</div>
+      </div>
+      <div style="padding:14px 16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
+        <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">United Hospital</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">ICU · Jun 28, 2026</div></div>
+        <div style="padding:3px 10px; border-radius:16px; background:{{ warnBg }}; font-size:11px; font-weight:600; color:#E65100">Expired</div>
+      </div>
+      <div style="padding:14px 16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
+        <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">Apollo Dhaka</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">General · Jun 20, 2026</div></div>
+        <div style="padding:3px 10px; border-radius:16px; background:{{ errBg }}; font-size:11px; font-weight:600; color:#C62828">Rejected</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ HOSPITAL ADMIN DASHBOARD ════════ -->
+<div style="display:{{ adminShow }}; min-height:100vh; padding-top:56px; padding-bottom:56px">
+  <div style="width:220px; background:{{ sidebarBg }}; border-right:1px solid {{ bdr }}; padding:20px 0; position:fixed; top:56px; bottom:56px; overflow-y:auto">
+    <div style="padding:0 16px 20px"><div style="font-size:13px; font-weight:600; color:{{ txt }}">Dhaka Medical College</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:2px">Hospital Admin</div></div>
+    <div style="display:flex; flex-direction:column; gap:2px; padding:0 8px">
+      <div style="padding:8px 12px; border-radius:8px; background:rgba(21,101,192,.1); font-size:13px; font-weight:500; color:#1565C0; cursor:pointer">Dashboard</div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="background:{{ hover }}">Bed Management</div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer; display:flex; justify-content:space-between; align-items:center" style-hover="background:{{ hover }}">Reservations <span style="background:#C62828; color:#fff; border-radius:10px; padding:1px 7px; font-size:10px; font-weight:600">3</span></div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="background:{{ hover }}">Active Holds</div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="background:{{ hover }}">History</div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="background:{{ hover }}">Analytics</div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="background:{{ hover }}">Scan QR</div>
+    </div>
+  </div>
+  <div style="margin-left:220px; flex:1; padding:24px 28px">
+    <div style="font-size:22px; font-weight:700; color:{{ txt }}; letter-spacing:-.5px; margin-bottom:20px">Dashboard</div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px">
+      <div style="padding:18px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px"><div style="font-size:11px; font-weight:500; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px">Available Beds</div><div style="font-size:36px; font-weight:800; color:#2E7D32; letter-spacing:-1px; margin-top:4px">22</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">of 45 total</div></div>
+      <div style="padding:18px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px"><div style="font-size:11px; font-weight:500; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px">Pending Requests</div><div style="font-size:36px; font-weight:800; color:#E65100; letter-spacing:-1px; margin-top:4px">3</div><div style="font-size:12px; color:#D50000; font-weight:500; margin-top:2px">1 critical ⚠</div></div>
+      <div style="padding:18px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px"><div style="font-size:11px; font-weight:500; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px">Active Holds</div><div style="font-size:36px; font-weight:800; color:#1565C0; letter-spacing:-1px; margin-top:4px">5</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">next expiry: 6 min</div></div>
+      <div style="padding:18px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px"><div style="font-size:11px; font-weight:500; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px">Today's Admissions</div><div style="font-size:36px; font-weight:800; color:{{ txt }}; letter-spacing:-1px; margin-top:4px">8</div><div style="font-size:12px; color:#2E7D32; font-weight:500; margin-top:2px">↑ 3 from yesterday</div></div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px">
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
+        <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">ICU</div><div style="font-size:12px; color:{{ txt3 }}">5 of 10</div><div style="height:3px; background:{{ bdr }}; border-radius:2px; margin-top:6px; width:80px"><div style="width:50%; height:100%; background:#2E7D32; border-radius:2px"></div></div></div>
+        <div style="display:flex; align-items:center; gap:6px"><div style="width:28px; height:28px; border-radius:6px; border:1px solid {{ bdr }}; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:{{ txt2 }}" style-hover="border-color:#1565C0; color:#1565C0">−</div><div style="font-size:20px; font-weight:700; color:#2E7D32; width:28px; text-align:center">5</div><div style="width:28px; height:28px; border-radius:6px; border:1px solid {{ bdr }}; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:{{ txt2 }}" style-hover="border-color:#1565C0; color:#1565C0">+</div></div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
+        <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">NICU</div><div style="font-size:12px; color:{{ txt3 }}">2 of 5</div><div style="height:3px; background:{{ bdr }}; border-radius:2px; margin-top:6px; width:80px"><div style="width:40%; height:100%; background:#F57F17; border-radius:2px"></div></div></div>
+        <div style="display:flex; align-items:center; gap:6px"><div style="width:28px; height:28px; border-radius:6px; border:1px solid {{ bdr }}; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:{{ txt2 }}">−</div><div style="font-size:20px; font-weight:700; color:#F57F17; width:28px; text-align:center">2</div><div style="width:28px; height:28px; border-radius:6px; border:1px solid {{ bdr }}; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:{{ txt2 }}">+</div></div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; display:flex; justify-content:space-between; align-items:center">
+        <div><div style="font-size:14px; font-weight:600; color:{{ txt }}">General</div><div style="font-size:12px; color:{{ txt3 }}">15 of 30</div><div style="height:3px; background:{{ bdr }}; border-radius:2px; margin-top:6px; width:80px"><div style="width:50%; height:100%; background:#2E7D32; border-radius:2px"></div></div></div>
+        <div style="display:flex; align-items:center; gap:6px"><div style="width:28px; height:28px; border-radius:6px; border:1px solid {{ bdr }}; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:{{ txt2 }}">−</div><div style="font-size:20px; font-weight:700; color:#2E7D32; width:28px; text-align:center">15</div><div style="width:28px; height:28px; border-radius:6px; border:1px solid {{ bdr }}; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:{{ txt2 }}">+</div></div>
+      </div>
+    </div>
+    <div style="font-size:16px; font-weight:600; color:{{ txt }}; margin-bottom:12px">Pending Requests</div>
+    <div style="display:flex; flex-direction:column; gap:8px">
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #D50000; display:flex; align-items:center; gap:14px">
+        <div style="flex:1"><div style="display:flex; align-items:center; gap:8px"><span style="font-size:14px; font-weight:600; color:{{ txt }}">Rahim Uddin</span><span style="padding:2px 8px; border-radius:10px; background:rgba(213,0,0,.1); font-size:10px; font-weight:600; color:#D50000">CRITICAL</span></div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">ICU · Cardiac arrest · 3 min ago</div></div>
+        <div style="display:flex; gap:6px"><div style="padding:8px 16px; border-radius:8px; background:#2E7D32; color:#fff; font-size:13px; font-weight:600; cursor:pointer" style-hover="background:#1B5E20" style-active="transform:scale(.96)">Approve</div><div style="padding:8px 16px; border-radius:8px; border:1px solid {{ bdr }}; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#C62828; color:#C62828">Reject</div></div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #F57F17; display:flex; align-items:center; gap:14px">
+        <div style="flex:1"><div style="display:flex; align-items:center; gap:8px"><span style="font-size:14px; font-weight:600; color:{{ txt }}">Fatima Begum</span><span style="padding:2px 8px; border-radius:10px; background:rgba(245,127,23,.1); font-size:10px; font-weight:600; color:#E65100">URGENT</span></div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">NICU · Premature delivery · 8 min ago</div></div>
+        <div style="display:flex; gap:6px"><div style="padding:8px 16px; border-radius:8px; background:#2E7D32; color:#fff; font-size:13px; font-weight:600; cursor:pointer" style-hover="background:#1B5E20">Approve</div><div style="padding:8px 16px; border-radius:8px; border:1px solid {{ bdr }}; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#C62828; color:#C62828">Reject</div></div>
+      </div>
+      <div style="padding:16px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; border-left:4px solid #1565C0; display:flex; align-items:center; gap:14px">
+        <div style="flex:1"><div style="display:flex; align-items:center; gap:8px"><span style="font-size:14px; font-weight:600; color:{{ txt }}">Karim Ahmed</span><span style="padding:2px 8px; border-radius:10px; background:rgba(21,101,192,.1); font-size:10px; font-weight:600; color:#1565C0">STANDARD</span></div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">General · Observation · 22 min ago</div></div>
+        <div style="display:flex; gap:6px"><div style="padding:8px 16px; border-radius:8px; background:#2E7D32; color:#fff; font-size:13px; font-weight:600; cursor:pointer" style-hover="background:#1B5E20">Approve</div><div style="padding:8px 16px; border-radius:8px; border:1px solid {{ bdr }}; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#C62828; color:#C62828">Reject</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SUPER ADMIN DASHBOARD ════════ -->
+<div style="display:{{ superShow }}; min-height:100vh; padding-top:56px; padding-bottom:56px">
+  <div style="width:220px; background:{{ sidebarBg }}; border-right:1px solid {{ bdr }}; padding:20px 0; position:fixed; top:56px; bottom:56px">
+    <div style="padding:0 16px 20px"><div style="font-size:13px; font-weight:600; color:{{ txt }}">Super Admin</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:2px">Platform Oversight</div></div>
+    <div style="display:flex; flex-direction:column; gap:2px; padding:0 8px">
+      <div style="padding:8px 12px; border-radius:8px; background:rgba(21,101,192,.1); font-size:13px; font-weight:500; color:#1565C0; cursor:pointer">Overview</div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="background:{{ hover }}">Hospitals</div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer; display:flex; justify-content:space-between; align-items:center" style-hover="background:{{ hover }}">Applications <span style="background:#F57F17; color:#fff; border-radius:10px; padding:1px 7px; font-size:10px; font-weight:600">2</span></div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="background:{{ hover }}">Users</div>
+      <div style="padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: {{ txt2 }}; cursor: pointer; background-color: #cccccc" style-hover="background:{{ hover }}">Audit Logs</div>
+      <div style="padding:8px 12px; border-radius:8px; font-size:13px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="background:{{ hover }}">Settings</div>
+    </div>
+  </div>
+  <div style="margin-left:220px; flex:1; padding:24px 28px">
+    <div style="font-size:22px; font-weight:700; color:{{ txt }}; letter-spacing:-.5px; margin-bottom:20px">System Overview</div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px">
+      <div style="padding:18px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px"><div style="font-size:11px; font-weight:500; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px">Total Hospitals</div><div style="font-size:36px; font-weight:800; color:{{ txt }}; letter-spacing:-1px; margin-top:4px">47</div><div style="font-size:12px; color:#2E7D32; font-weight:500; margin-top:2px">42 active · 5 pending</div></div>
+      <div style="padding:18px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px"><div style="font-size:11px; font-weight:500; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px">Active Reservations</div><div style="font-size: 36px; font-weight: 800; color: #1565C0; letter-spacing: -1px; margin-top: 4px; text-align: left">156</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">across all hospitals</div></div>
+      <div style="padding:18px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px"><div style="font-size:11px; font-weight:500; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px">Pending Applications</div><div style="font-size:36px; font-weight:800; color:#F57F17; letter-spacing:-1px; margin-top:4px">2</div><div style="font-size:12px; color:{{ txt3 }}; margin-top:2px">awaiting review</div></div>
+      <div style="padding:18px; background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px"><div style="font-size:11px; font-weight:500; color:{{ txt3 }}; text-transform:uppercase; letter-spacing:.5px">System Alerts</div><div style="font-size:36px; font-weight:800; color:#C62828; letter-spacing:-1px; margin-top:4px">1</div><div style="font-size:12px; color:#D50000; font-weight:500; margin-top:2px">critical escalation</div></div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px">
+      <div style="background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; padding:18px">
+        <div style="font-size:15px; font-weight:600; color:{{ txt }}; margin-bottom:14px">Pending Hospital Applications</div>
+        <div style="display:flex; flex-direction:column; gap:10px">
+          <div style="padding:14px; border:1px solid {{ bdr }}; border-radius:10px">
+            <div style="font-size:14px; font-weight:600; color:{{ txt }}">Green Life Hospital</div>
+            <div style="font-size:12px; color:{{ txt3 }}; margin:2px 0 10px">Dhanmondi · Applied Jul 8</div>
+            <div style="display:flex; gap:6px"><div style="padding:6px 14px; border-radius:6px; background:#2E7D32; color:#fff; font-size:12px; font-weight:600; cursor:pointer" style-hover="background:#1B5E20">Approve</div><div style="padding:6px 14px; border-radius:6px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#1565C0; color:#1565C0">Review</div><div style="padding:6px 14px; border-radius:6px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:#C62828; cursor:pointer" style-hover="background:rgba(198,40,40,.04)">Reject</div></div>
+          </div>
+          <div style="padding:14px; border:1px solid {{ bdr }}; border-radius:10px">
+            <div style="font-size:14px; font-weight:600; color:{{ txt }}">Comfort Hospital</div>
+            <div style="font-size:12px; color:{{ txt3 }}; margin:2px 0 10px">Uttara · Applied Jul 7</div>
+            <div style="display:flex; gap:6px"><div style="padding:6px 14px; border-radius:6px; background:#2E7D32; color:#fff; font-size:12px; font-weight:600; cursor:pointer" style-hover="background:#1B5E20">Approve</div><div style="padding:6px 14px; border-radius:6px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:{{ txt2 }}; cursor:pointer" style-hover="border-color:#1565C0; color:#1565C0">Review</div><div style="padding:6px 14px; border-radius:6px; border:1px solid {{ bdr }}; font-size:12px; font-weight:500; color:#C62828; cursor:pointer" style-hover="background:rgba(198,40,40,.04)">Reject</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:{{ card }}; border:1px solid {{ bdr }}; border-radius:12px; padding:18px">
+        <div style="font-size:15px; font-weight:600; color:{{ txt }}; margin-bottom:14px">Recent Audit Log</div>
+        <div style="display:flex; flex-direction:column; gap:0">
+          <div style="padding:10px 0; border-bottom:1px solid {{ bdr }}; display:flex; gap:10px; align-items:start"><div style="width:7px; height:7px; border-radius:50%; background:#D50000; margin-top:5px; flex-shrink:0"></div><div><div style="font-size:13px; color:{{ txt }}">Critical reservation escalated</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">Dhaka Medical · 3 min ago</div></div></div>
+          <div style="padding:10px 0; border-bottom:1px solid {{ bdr }}; display:flex; gap:10px; align-items:start"><div style="width:7px; height:7px; border-radius:50%; background:#2E7D32; margin-top:5px; flex-shrink:0"></div><div><div style="font-size:13px; color:{{ txt }}">Hospital approved: Labaid</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">1 hour ago</div></div></div>
+          <div style="padding:10px 0; border-bottom:1px solid {{ bdr }}; display:flex; gap:10px; align-items:start"><div style="width:7px; height:7px; border-radius:50%; background:#1565C0; margin-top:5px; flex-shrink:0"></div><div><div style="font-size:13px; color:{{ txt }}">New admin for Square Hospital</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">2 hours ago</div></div></div>
+          <div style="padding:10px 0; display:flex; gap:10px; align-items:start"><div style="width:7px; height:7px; border-radius:50%; background:#F57F17; margin-top:5px; flex-shrink:0"></div><div><div style="font-size:13px; color:{{ txt }}">Bed count correction at United</div><div style="font-size:11px; color:{{ txt3 }}; margin-top:1px">3 hours ago</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},
+  &quot;darkMode&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;section&quot;:&quot;Theme&quot;},
+  &quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;login&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;otp&quot;,&quot;svc&quot;,&quot;bed&quot;,&quot;detail&quot;,&quot;reserve&quot;,&quot;myRes&quot;,&quot;admin&quot;,&quot;super&quot;,&quot;ambHome&quot;,&quot;ambList&quot;,&quot;ambReq&quot;,&quot;ambTrack&quot;,&quot;ambSuccess&quot;,&quot;bloodHome&quot;,&quot;bloodSearch&quot;,&quot;bloodDetail&quot;,&quot;bloodReq&quot;,&quot;bloodStatus&quot;,&quot;notif&quot;],&quot;section&quot;:&quot;Navigation&quot;}
+}">
+
+class Component extends DCLogic {
+  state = { scr:'login', dark:false, role:'patient', bed:'ICU', pri:'standard', ambLvl:'critical', bloodGrp:'A+' };
+  componentDidMount() {
+    if(this.props.darkMode) this.setState({dark:true});
+    if(this.props.startScreen) this.setState({scr:this.props.startScreen});
+  }
+  renderVals() {
+    const {scr,dark:d,role,bed,pri,ambLvl,bloodGrp}=this.state;
+    const bg=d?'#121212':'#FAFAFA', card=d?'#1E1E1E':'#FFFFFF', navBg=d?'rgba(30,30,30,.92)':'rgba(255,255,255,.92)';
+    const bdr=d?'#333':'#E5E5E5', inputBg=d?'#2A2A2A':'#FAFAFA', chip=d?'#2A2A2A':'#F0F0F0';
+    const hover=d?'rgba(255,255,255,.06)':'rgba(0,0,0,.04)', shadow=d?'rgba(0,0,0,.4)':'rgba(0,0,0,.06)';
+    const txt=d?'#FFFFFF':'#212121', txt2=d?'#B0B0B0':'#757575', txt3=d?'#666':'#9E9E9E';
+    const loginBg=d?'#0A0A0A':'#F5F5F5';
+    const successBg=d?'rgba(46,125,50,.15)':'rgba(46,125,50,.08)';
+    const warnBg=d?'rgba(245,127,23,.15)':'rgba(245,127,23,.08)';
+    const errBg=d?'rgba(198,40,40,.15)':'rgba(198,40,40,.08)';
+    const mapBg=d?'#1A1C20':'#E8E4DC', mapLine=d?'#333':'#C8C4BC', riverClr=d?'#1565C0':'#90CAF9';
+
+    const sidebarBg=d?'#1A1A1A':'#FAFAFA';
+    const noNav=scr==='login'||scr==='otp';
+    const navShow=noNav?'none':'flex';
+    const mk=(s)=>scr===s?'flex':'none';
+
+    // Bottom nav colors
+    const svcScreens=['svc'];
+    const mapScreens=['bed','detail','reserve'];
+    const notifScreens=['notif'];
+    const bnHome=svcScreens.includes(scr)?'#1565C0':txt3;
+    const bnSvc=svcScreens.includes(scr)?'#1565C0':txt3;
+    const bnMap=mapScreens.includes(scr)?'#1565C0':txt3;
+    const bnNotif=notifScreens.includes(scr)?'#1565C0':txt3;
+
+    const avatarClr=role==='patient'?'#1565C0':role==='admin'?'#00897B':'#7B1FA2';
+    const avatarL=role==='patient'?'R':role==='admin'?'A':'S';
+    const roleName=role==='patient'?'Patient':role==='admin'?'Hospital Admin':'Super Admin';
+    const darkIcon=d?'☀️':'🌙';
+
+    // Bed selection
+    const sel='#1565C0';
+    const icuBg=bed==='ICU'?sel:card, icuBdr=bed==='ICU'?sel:bdr, icuClr=bed==='ICU'?'#fff':txt;
+    const nicuBg=bed==='NICU'?sel:card, nicuBdr=bed==='NICU'?sel:bdr, nicuClr=bed==='NICU'?'#fff':txt;
+    const genBg=bed==='General'?sel:card, genBdr=bed==='General'?sel:bdr, genClr=bed==='General'?'#fff':txt;
+
+    // Priority selection
+    const critBdr=pri==='critical'?'#D50000':bdr, critBg=pri==='critical'?errBg:card, critDot=pri==='critical'?'10px':'0px';
+    const urgBdr=pri==='urgent'?'#F57F17':bdr, urgBg=pri==='urgent'?warnBg:card, urgDot=pri==='urgent'?'10px':'0px';
+    const stdBdr=pri==='standard'?'#1565C0':bdr, stdBg=pri==='standard'?'rgba(21,101,192,.06)':card, stdDot=pri==='standard'?'10px':'0px';
+
+    // Ambulance emergency level
+    const ambCritBdr=ambLvl==='critical'?'#D50000':bdr, ambCritBg=ambLvl==='critical'?errBg:card, ambCritDot=ambLvl==='critical'?'10px':'0px';
+    const ambSerBdr=ambLvl==='serious'?'#F57F17':bdr, ambSerBg=ambLvl==='serious'?warnBg:card, ambSerDot=ambLvl==='serious'?'10px':'0px';
+    const ambNormBdr=ambLvl==='normal'?'#1565C0':bdr, ambNormBg=ambLvl==='normal'?'rgba(21,101,192,.06)':card, ambNormDot=ambLvl==='normal'?'10px':'0px';
+
+    // Blood group selection
+    const bSel='#AD1457';
+    const mkBg=(g)=>({[g+'Bg']:bloodGrp===g?bSel:card,[g+'Bdr']:bloodGrp===g?bSel:bdr,[g+'Clr']:bloodGrp===g?'#fff':txt});
+    const bgAp=mkBg('bgAp'), bgBp=mkBg('bgBp'), bgOp=mkBg('bgOp'), bgABp=mkBg('bgABp');
+
+    const me=this;
+    return {
+      bg,card,navBg,bdr,inputBg,chip,hover,shadow,txt,txt2,txt3,loginBg,successBg,warnBg,errBg,
+      mapBg,mapLine,riverClr,navShow,avatarClr,avatarL,roleName,darkIcon,sidebarBg,
+      bnHome,bnSvc,bnMap,bnNotif,
+      icuBg,icuBdr,icuClr,nicuBg,nicuBdr,nicuClr,genBg,genBdr,genClr,
+      critBdr,critBg,critDot,urgBdr,urgBg,urgDot,stdBdr,stdBg,stdDot,
+      ambCritBdr,ambCritBg,ambCritDot,ambSerBdr,ambSerBg,ambSerDot,ambNormBdr,ambNormBg,ambNormDot,
+      ...bgAp,...bgBp,...bgOp,...bgABp,
+
+      // Screen visibility
+      loginShow:mk('login'), svcShow:mk('svc'),
+      bedShow:mk('bed'), detailShow:mk('detail'), reserveShow:mk('reserve'),
+      ambHomeShow:mk('ambHome'), ambListShow:mk('ambList'), ambReqShow:mk('ambReq'),
+      ambTrackShow:mk('ambTrack'), ambSuccessShow:mk('ambSuccess'),
+      bloodHomeShow:mk('bloodHome'), bloodSearchShow:mk('bloodSearch'),
+      bloodDetailShow:mk('bloodDetail'), bloodReqShow:mk('bloodReq'),
+      bloodStatusShow:mk('bloodStatus'), notifShow:mk('notif'),
+      otpShow:mk('otp'), myResShow:mk('myRes'), adminShow:mk('admin'), superShow:mk('super'),
+
+      // Navigation
+      toggleDark:()=>me.setState({dark:!me.state.dark}),
+      doLogin:()=>me.setState({scr:'otp'}),
+      verifyOtp:()=>me.setState({scr:'svc',role:'patient'}),
+      goLogin:()=>me.setState({scr:'login'}),
+      goServices:()=>me.setState({scr:'svc'}),
+      goBedHome:()=>me.setState({scr:'bed'}),
+      goDetail:()=>me.setState({scr:'detail'}),
+      goReserve:()=>me.setState({scr:'reserve'}),
+      goAmbHome:()=>me.setState({scr:'ambHome'}),
+      goAmbList:()=>me.setState({scr:'ambList'}),
+      goAmbReq:()=>me.setState({scr:'ambReq'}),
+      goAmbTrack:()=>me.setState({scr:'ambTrack'}),
+      goAmbSuccess:()=>me.setState({scr:'ambSuccess'}),
+      goBloodHome:()=>me.setState({scr:'bloodHome'}),
+      goBloodSearch:()=>me.setState({scr:'bloodSearch'}),
+      goBloodDetail:()=>me.setState({scr:'bloodDetail'}),
+      goBloodReq:()=>me.setState({scr:'bloodReq'}),
+      goBloodStatus:()=>me.setState({scr:'bloodStatus'}),
+      goNotif:()=>me.setState({scr:'notif'}),
+      goMyRes:()=>me.setState({scr:'myRes'}),
+      goAdmin:()=>me.setState({scr:'admin',role:'admin'}),
+      goSuper:()=>me.setState({scr:'super',role:'superAdmin'}),
+      cycleRole:()=>{
+        const r=['patient','admin','superAdmin'];
+        const scrs=['svc','admin','super'];
+        const i=(r.indexOf(me.state.role)+1)%3;
+        me.setState({role:r[i],scr:scrs[i]});
+      },
+
+      // Selections
+      pickICU:()=>me.setState({bed:'ICU'}), pickNICU:()=>me.setState({bed:'NICU'}), pickGen:()=>me.setState({bed:'General'}),
+      pickCrit:()=>me.setState({pri:'critical'}), pickUrg:()=>me.setState({pri:'urgent'}), pickStd:()=>me.setState({pri:'standard'}),
+      pickAmbCrit:()=>me.setState({ambLvl:'critical'}), pickAmbSer:()=>me.setState({ambLvl:'serious'}), pickAmbNorm:()=>me.setState({ambLvl:'normal'}),
+      pickBgAp:()=>me.setState({bloodGrp:'A+'}), pickBgBp:()=>me.setState({bloodGrp:'B+'}),
+      pickBgOp:()=>me.setState({bloodGrp:'O+'}), pickBgABp:()=>me.setState({bloodGrp:'AB+'}),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
